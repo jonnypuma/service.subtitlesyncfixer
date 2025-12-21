@@ -33,6 +33,13 @@ class SubtitleFixPlayer(xbmc.Player):
             if not ADDON.getSettingBool('enabled'):
                 return
             
+            # Only apply fix to video playback, not audio/music
+            if not self.isPlayingVideo():
+                self._playback_started = False
+                self._fix_applied = True
+                xbmc.log(f"{ADDON_NAME}: Audio playback detected, skipping subtitle fix", xbmc.LOGDEBUG)
+                return
+            
             current_time = self.getTime()
             
             # Only apply fix if we're at the very beginning (first 2 seconds)
@@ -40,7 +47,7 @@ class SubtitleFixPlayer(xbmc.Player):
             if current_time < 2.0:
                 self._fix_applied = False
                 self._playback_started = True
-                xbmc.log(f"{ADDON_NAME}: Playback started at {current_time:.2f}s, will apply subtitle fix after {WAIT_TIME}s", xbmc.LOGINFO)
+                xbmc.log(f"{ADDON_NAME}: Video playback started at {current_time:.2f}s, will apply subtitle fix after {WAIT_TIME}s", xbmc.LOGINFO)
             else:
                 # If playback started mid-way, don't apply fix
                 self._playback_started = False
@@ -70,7 +77,8 @@ class SubtitleFixPlayer(xbmc.Player):
             return
         
         try:
-            if self.isPlaying():
+            # Only apply fix to video playback, not audio/music
+            if self.isPlaying() and self.isPlayingVideo():
                 current_time = self.getTime()
                 
                 # If we've reached the wait time, apply the fix
@@ -88,6 +96,10 @@ class SubtitleFixPlayer(xbmc.Player):
                         xbmc.executebuiltin('PlayerControl(StepBack)')
                         self._fix_applied = True
                         xbmc.log(f"{ADDON_NAME}: Used StepBack to trigger subtitle re-sync", xbmc.LOGINFO)
+            elif self.isPlaying() and not self.isPlayingVideo():
+                # If it's no longer video (switched to audio), reset the fix
+                self._playback_started = False
+                self._fix_applied = True
         except Exception as e:
             xbmc.log(f"{ADDON_NAME}: Error in check_and_apply_fix: {str(e)}", xbmc.LOGERROR)
 
