@@ -1,4 +1,7 @@
-Version 1.0.0
+Version 1.0.2
+- Removed provides line in addon.xml
+
+Version 1.0.1
 - Changed provider name
 
 Version 1.0.0
