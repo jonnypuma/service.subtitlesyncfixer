@@ -1,0 +1,10 @@
+Version 1.0.0
+- Changed provider name
+
+Version 1.0.0
+- Initial release
+- Waits 5 seconds after playback starts, then seeks back 1 second to fix subtitles
+- Only triggers when playback starts near the beginning (first 2 seconds)
+- Minimal interruption - only 1 second rewind instead of 5 seconds
+- Silent background operation with logging support
+
