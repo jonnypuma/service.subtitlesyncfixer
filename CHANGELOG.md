@@ -1,8 +1,7 @@
-Version 1.0.2
-- Removed provides line in addon.xml
-
-Version 1.0.1
-- Changed provider name
+Version 1.1.0
+- Fixed: Only applies subtitle fix to video playback, not audio/music
+- Added: Icon and fanart support for addon display
+- Improved: Better detection of video vs audio playback using isPlayingVideo()
 
 Version 1.0.0
 - Initial release
