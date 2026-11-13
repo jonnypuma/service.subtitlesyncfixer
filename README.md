@@ -1,3 +1,5 @@
+OBSOLETE - SUPERCEDED BY SUBTITLE ENFORCER AND NO LONGER MAINTAINED
+
 # Subtitle Sync Fixer - Kodi Service Add-on
 
 ## Description
